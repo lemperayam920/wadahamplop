@@ -1,57 +1,932 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Web Belajar Coding</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplop Hadiah</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold1: #ffd600;
+    --gold2: #ffab00;
+    --orange1: #ff6d00;
+    --orange2: #ff3d00;
+    --cream: #fff8e1;
+    --dark: #1a0a00;
+    --dark2: #3d1a00;
+    --glow-gold: 0 0 20px #ffd600cc, 0 0 60px #ffd60077;
+    --glow-orange: 0 0 20px #ff6d00cc, 0 0 60px #ff6d0077;
+  }
 
-    h1 {
-      margin-top: 60px;
-    }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    .container {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 50px;
-      flex-wrap: wrap;
-    }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a0a00 0%, #3d1500 20%, #7a2e00 45%, #d44800 70%, #ff7800 90%, #ffd600 100%);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 30px 20px 60px;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-    .card {
-      background: white;
-      color: #333;
-      width: 200px;
-      padding: 20px;
-      border-radius: 15px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      transition: 0.3s;
-    }
+  /* Warm light overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,214,0,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,171,0,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 10%, rgba(255,255,200,0.5) 0%, transparent 100%),
+      radial-gradient(2px 2px at 70% 80%, rgba(255,214,0,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 35%, rgba(255,200,0,0.5) 0%, transparent 100%),
+      radial-gradient(2px 2px at 20% 90%, rgba(255,171,0,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 80% 15%, rgba(255,109,0,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 45%, rgba(255,214,0,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-    .card:hover {
-      transform: translateY(-10px);
-      background: #f1f1f1;
-    }
-  </style>
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(255,109,0,0.20) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(255,214,0,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 90%, rgba(255,61,0,0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ============ LOGO ============ */
+  .logo-area {
+    position: relative;
+    z-index: 10;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 16px #ffd600aa) drop-shadow(0 0 40px #ff6d0066);
+    border-radius: 20px;
+  }
+
+  /* ============ TITLE ============ */
+  .title-area {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .title-main {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 5vw, 38px);
+    font-weight: 900;
+    background: linear-gradient(90deg, #fff8e1, #ffd600, #ff6d00, #fff8e1, #ffd600);
+    background-size: 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmerText 4s linear infinite;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    filter: drop-shadow(0 2px 8px #ff6d0088);
+  }
+
+  @keyframes shimmerText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  .title-sub {
+    font-size: 14px;
+    color: rgba(255,248,225,0.65);
+    margin-top: 4px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ============ USER ID FORM ============ */
+  .userid-section {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 360px;
+    margin-bottom: 28px;
+  }
+
+  .userid-card {
+    background: rgba(255,200,50,0.08);
+    border: 1px solid rgba(255,214,0,0.3);
+    border-radius: 20px;
+    padding: 24px 24px 20px;
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 0 1px rgba(255,214,0,0.15),
+      0 8px 32px rgba(255,109,0,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .userid-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,214,0,0.8);
+    margin-bottom: 10px;
+  }
+
+  .userid-input-wrap {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .userid-input {
+    flex: 1;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.35);
+    border: 1.5px solid rgba(255,214,0,0.4);
+    border-radius: 12px;
+    color: #fff8e1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .userid-input::placeholder { color: rgba(255,214,0,0.3); }
+
+  .userid-input:focus {
+    border-color: #ffd600;
+    box-shadow: 0 0 0 3px rgba(255,214,0,0.15), 0 0 20px rgba(255,214,0,0.2);
+  }
+
+  .userid-input:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .btn-confirm {
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #ffd600, #ff6d00);
+    border: none;
+    border-radius: 12px;
+    color: #1a0a00;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(255,109,0,0.5);
+  }
+
+  .btn-confirm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255,109,0,0.6);
+  }
+
+  .btn-confirm:active { transform: translateY(0); }
+
+  .userid-confirmed {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(255,214,0,0.1);
+    border: 1.5px solid rgba(255,214,0,0.5);
+    border-radius: 12px;
+  }
+
+  .userid-confirmed.show { display: flex; }
+  .userid-input-wrap.hidden { display: none; }
+
+  .confirmed-icon { font-size: 20px; }
+  .confirmed-text { font-size: 13px; color: rgba(255,248,225,0.8); }
+  .confirmed-id { font-weight: 700; color: #ffd600; font-size: 15px; }
+
+  .userid-error {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #ff6d00;
+    font-weight: 600;
+    display: none;
+  }
+
+  /* ============ SUDAH DIBUKA WARNING ============ */
+  .already-used {
+    display: none;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    background: rgba(255,100,0,0.12);
+    border: 1.5px solid rgba(255,109,0,0.5);
+    border-radius: 20px;
+    padding: 28px 24px;
+    max-width: 340px;
+    backdrop-filter: blur(10px);
+    margin-bottom: 20px;
+  }
+  .already-used.show { display: block; }
+  .already-used-icon { font-size: 48px; margin-bottom: 10px; }
+  .already-used-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    color: #ffd600;
+    margin-bottom: 8px;
+  }
+  .already-used-text { font-size: 13px; color: rgba(255,248,225,0.6); line-height: 1.6; }
+
+  /* ============ AMPLOP CONTAINER ============ */
+  .envelope-stage {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .envelope-stage.locked { pointer-events: none; opacity: 0.4; filter: grayscale(0.3); }
+
+  .envelope-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    filter: drop-shadow(0 0 30px #ffd60088) drop-shadow(0 0 60px #ff6d0044);
+  }
+
+  .envelope-wrapper:hover { transform: scale(1.04) translateY(-4px); }
+  .envelope-wrapper:active { transform: scale(0.97); }
+
+  .envelope-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  #env-closed { opacity: 1; }
+  #env-opened { opacity: 0; transform: scale(1.1); }
+
+  .envelope-wrapper.opened #env-closed { opacity: 0; transform: scale(0.85); }
+  .envelope-wrapper.opened #env-opened { opacity: 1; transform: scale(1); }
+
+  /* Shine ring */
+  .envelope-ring {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(#3d1500, #3d1500) padding-box,
+                linear-gradient(135deg, #ffd600, #ff6d00, #fff8e1, #ffd600) border-box;
+    animation: spinRing 4s linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes spinRing { to { transform: rotate(360deg); } }
+
+  /* ============ TOMBOL BUKA AMPLOP ============ */
+  .btn-open {
+    position: relative;
+    padding: 16px 44px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a0a00;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #ffd600, #ff9500, #ff3d00, #ffd600);
+    background-size: 200%;
+    animation: gradientShift 3s ease infinite;
+    box-shadow:
+      0 4px 24px rgba(255,109,0,0.7),
+      0 8px 48px rgba(255,214,0,0.4),
+      0 0 0 2px rgba(255,255,255,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.35),
+      inset 0 -2px 0 rgba(0,0,0,0.15);
+    transform: translateY(0);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    z-index: 10;
+  }
+
+  .btn-open::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: 48px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .btn-open:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 8px 32px rgba(255,109,0,0.9),
+      0 16px 64px rgba(255,214,0,0.5),
+      0 0 80px rgba(255,61,0,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+
+  .btn-open:active { transform: translateY(1px); }
+  .btn-open:disabled { opacity: 0.4; cursor: not-allowed; transform: none; animation: none; }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .instruction {
+    color: rgba(255,248,225,0.5);
+    font-size: 13px;
+    text-align: center;
+    margin-top: 10px;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.9; }
+  }
+
+  /* ============ CONFETTI ============ */
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ============ POPUP MODAL ============ */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,5,0,0.88);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal-box {
+    background: linear-gradient(145deg, #2d0e00, #5a2000, #3d1500);
+    border: 1px solid rgba(255,214,0,0.3);
+    border-radius: 28px;
+    padding: 44px 36px 36px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    box-shadow:
+      0 0 0 1px rgba(255,214,0,0.4),
+      0 0 60px rgba(255,109,0,0.4),
+      0 0 120px rgba(255,214,0,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .modal-trophy {
+    font-size: 70px;
+    display: block;
+    animation: trophyBounce 1s ease-in-out infinite alternate;
+    margin-bottom: 12px;
+  }
+
+  @keyframes trophyBounce {
+    from { transform: translateY(0) rotate(-5deg); }
+    to { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  .modal-congrats {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,214,0,0.7);
+    margin-bottom: 8px;
+  }
+
+  .modal-userid-display {
+    font-size: 12px;
+    color: rgba(255,248,225,0.5);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .modal-userid-display span {
+    color: #ffd600;
+    font-weight: 700;
+  }
+
+  .modal-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: 900;
+    color: #fff8e1;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .modal-prize-label {
+    font-size: 13px;
+    color: rgba(255,248,225,0.5);
+    margin-bottom: 6px;
+  }
+
+  .modal-amount {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(32px, 8vw, 54px);
+    font-weight: 900;
+    background: linear-gradient(90deg, #ffd600, #ffab00, #ff6d00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 12px #ffd60088);
+    margin-bottom: 6px;
+  }
+
+  .modal-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,214,0,0.3), transparent);
+    margin: 24px 0;
+  }
+
+  /* ============ TOMBOL AMBIL HADIAH ============ */
+  .btn-claim {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a0a00;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: linear-gradient(135deg, #ffd600, #ffab00, #ff6d00, #ffd600);
+    background-size: 300%;
+    animation: goldShift 2.5s ease infinite;
+    box-shadow:
+      0 4px 20px rgba(255,214,0,0.6),
+      0 8px 40px rgba(255,109,0,0.35),
+      0 0 0 2px rgba(255,255,255,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.4);
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .btn-claim:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 8px 28px rgba(255,214,0,0.8),
+      0 16px 60px rgba(255,109,0,0.45),
+      0 0 80px rgba(255,214,0,0.3);
+  }
+
+  .btn-claim:active { transform: translateY(1px); }
+
+  @keyframes goldShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .modal-box::before, .modal-box::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .modal-box::before {
+    top: -20px; left: -20px;
+    background: radial-gradient(circle, rgba(255,214,0,0.4), transparent 70%);
+  }
+  .modal-box::after {
+    bottom: -20px; right: -20px;
+    background: radial-gradient(circle, rgba(255,109,0,0.4), transparent 70%);
+  }
+
+  /* ============ FLOATING PARTICLES ============ */
+  .particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatUp linear infinite;
+    z-index: 1;
+  }
+
+  @keyframes floatUp {
+    from { transform: translateY(100vh) rotate(0deg); opacity: 0.6; }
+    to { transform: translateY(-20px) rotate(720deg); opacity: 0; }
+  }
+
+  /* ============ DEVTOOLS WARNING OVERLAY ============ */
+  #devtools-warning {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #1a0a00;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 40px;
+  }
+  #devtools-warning.show { display: flex; }
+  #devtools-warning .icon { font-size: 72px; }
+  #devtools-warning h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #ffd600;
+    font-size: 20px;
+  }
+  #devtools-warning p { color: rgba(255,248,225,0.6); font-size: 14px; line-height: 1.6; }
+</style>
 </head>
 <body>
 
-  <h1>📚 Web Belajar Coding</h1>
-  <p>Pilih materi yang ingin kamu pelajari</p>
+<canvas id="confetti-canvas"></canvas>
 
-  <div class="container">
-    <a href="html.html" class="card">HTML</a>
-    <a href="css.html" class="card">CSS</a>
-    <a href="js.html" class="card">JavaScript</a>
+<!-- DevTools Warning Overlay -->
+<div id="devtools-warning">
+  <div class="icon">🚫</div>
+  <h2>AKSES DITOLAK</h2>
+  <p>Developer tools tidak diizinkan.<br>Silakan tutup dan muat ulang halaman.</p>
+</div>
+
+<!-- ============ LOGO ============ -->
+<div class="logo-area">
+  <img class="logo-img" src="logo.png" alt="Logo">
+</div>
+
+<!-- ============ TITLE ============ -->
+<div class="title-area">
+  <div class="title-main">Amplop Berhadiah</div>
+  <div class="title-sub">Pilih & Buka Amplop Keberuntunganmu!</div>
+</div>
+
+<!-- ============ USER ID SECTION ============ -->
+<div class="userid-section">
+  <div class="userid-card">
+    <label class="userid-label">🔑 &nbsp; Masukkan User ID Kamu</label>
+
+    <!-- Input form (sebelum konfirmasi) -->
+    <div class="userid-input-wrap" id="inputWrap">
+      <input
+        type="text"
+        class="userid-input"
+        id="userIdInput"
+        placeholder="Contoh: user123"
+        maxlength="30"
+        autocomplete="off"
+      >
+      <button class="btn-confirm" onclick="konfirmasiUserId()">MASUK</button>
+    </div>
+
+    <!-- Status setelah konfirmasi -->
+    <div class="userid-confirmed" id="confirmedDisplay">
+      <span class="confirmed-icon">✅</span>
+      <div>
+        <div class="confirmed-text">User ID Terdaftar</div>
+        <div class="confirmed-id" id="confirmedIdText"></div>
+      </div>
+    </div>
+
+    <div class="userid-error" id="useridError"></div>
+  </div>
+</div>
+
+<!-- ============ SUDAH DIBUKA ============ -->
+<div class="already-used" id="alreadyUsed">
+  <div class="already-used-icon">📦</div>
+  <div class="already-used-title">Amplop Sudah Dibuka!</div>
+  <div class="already-used-text">
+    Perangkat ini sudah pernah membuka amplop.<br>
+    Setiap perangkat hanya bisa membuka amplop <strong>1 kali</strong>.
+  </div>
+</div>
+
+<!-- ============ AMPLOP STAGE ============ -->
+<div class="envelope-stage" id="envelopeStage">
+  <div class="envelope-wrapper" id="envelopeWrapper" onclick="bukaAmplop()">
+    <div class="envelope-ring"></div>
+    <img class="envelope-img" id="env-closed" src="tutup.png" alt="Amplop Tertutup">
+    <img class="envelope-img" id="env-opened" src="buka.png" alt="Amplop Terbuka">
   </div>
 
+  <button class="btn-open" id="btnOpen" onclick="bukaAmplop()">
+    ✨ &nbsp; BUKA AMPLOP &nbsp; ✨
+  </button>
+
+  <div class="instruction" id="instruction">Masukkan User ID dulu untuk membuka amplop!</div>
+</div>
+
+<!-- ============ MODAL POPUP ============ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <span class="modal-trophy">🏆</span>
+    <div class="modal-congrats">🎉 Selamat! 🎉</div>
+    <div class="modal-userid-display">User ID: <span id="modalUserId"></span></div>
+    <div class="modal-title">Anda Mendapatkan<br>Hadiah Sebesar</div>
+    <div class="modal-prize-label">Total Hadiah</div>
+    <div class="modal-amount" id="prizeAmount">Rp 0</div>
+    <div class="modal-divider"></div>
+    <a href="#" class="btn-claim" id="claimBtn" target="_blank">
+      💰 &nbsp; AMBIL SEKARANG!! &nbsp; 💰
+    </a>
+  </div>
+</div>
+
+<script>
+  // ══════════════════════════════════════════════
+  // KONFIGURASI HADIAH
+  const hadiah = [
+    { label: "Rp 500.000", value: 500000 },
+    { label: "Rp 1.000.000", value: 1000000 },
+    { label: "Rp 1.500.000", value: 1500000 },
+    { label: "Rp 2.000.000", value: 2000000 },
+  ];
+
+  // KONFIGURASI LINK TOMBOL AMBIL HADIAH
+  const claimLink = "https://wadahbest.com"; // ← GANTI INI
+
+  // ══════════════════════════════════════════════
+  // STATE
+  let sudahBuka = false;
+  let userIdTerkonfirmasi = null;
+  const STORAGE_KEY = 'amplop_sudah_dibuka';
+  const USERID_KEY  = 'amplop_user_id';
+
+  // ══════════════════════════════════════════════
+  // INIT: cek apakah device sudah pernah buka
+  window.addEventListener('DOMContentLoaded', () => {
+    const pernahBuka = localStorage.getItem(STORAGE_KEY);
+    const savedId    = localStorage.getItem(USERID_KEY);
+
+    if (pernahBuka === '1') {
+      // Sembunyikan amplop, tampilkan pesan sudah dibuka
+      document.getElementById('envelopeStage').style.display = 'none';
+      document.getElementById('alreadyUsed').classList.add('show');
+
+      // Tampilkan user ID yang tersimpan jika ada
+      if (savedId) {
+        document.getElementById('inputWrap').classList.add('hidden');
+        document.getElementById('confirmedDisplay').classList.add('show');
+        document.getElementById('confirmedIdText').textContent = savedId;
+      }
+
+      // Disable input
+      document.getElementById('userIdInput').disabled = true;
+    } else {
+      // Kunci amplop sampai user ID diisi
+      document.getElementById('envelopeStage').classList.add('locked');
+      document.getElementById('btnOpen').disabled = true;
+    }
+  });
+
+  // ══════════════════════════════════════════════
+  // KONFIRMASI USER ID
+  function konfirmasiUserId() {
+    const input = document.getElementById('userIdInput');
+    const errorEl = document.getElementById('useridError');
+    const val = input.value.trim();
+
+    errorEl.style.display = 'none';
+
+    if (!val) {
+      errorEl.textContent = '⚠️ User ID tidak boleh kosong!';
+      errorEl.style.display = 'block';
+      input.focus();
+      return;
+    }
+
+    if (val.length < 3) {
+      errorEl.textContent = '⚠️ User ID minimal 3 karakter!';
+      errorEl.style.display = 'block';
+      input.focus();
+      return;
+    }
+
+    // Konfirmasi berhasil
+    userIdTerkonfirmasi = val;
+    localStorage.setItem(USERID_KEY, val);
+
+    // Update UI
+    document.getElementById('inputWrap').classList.add('hidden');
+    document.getElementById('confirmedDisplay').classList.add('show');
+    document.getElementById('confirmedIdText').textContent = val;
+
+    // Buka kunci amplop
+    document.getElementById('envelopeStage').classList.remove('locked');
+    document.getElementById('btnOpen').disabled = false;
+    document.getElementById('instruction').textContent = 'Tekan tombol untuk membuka amplop keberuntunganmu!';
+  }
+
+  // Tekan Enter juga bisa konfirmasi
+  document.getElementById('userIdInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') konfirmasiUserId();
+  });
+
+  // ══════════════════════════════════════════════
+  // BUKA AMPLOP
+  function bukaAmplop() {
+    if (sudahBuka) return;
+    if (!userIdTerkonfirmasi) return;
+
+    sudahBuka = true;
+
+    // Simpan ke localStorage — device sudah buka
+    localStorage.setItem(STORAGE_KEY, '1');
+
+    const wrapper = document.getElementById('envelopeWrapper');
+    const btnOpen = document.getElementById('btnOpen');
+    const instruction = document.getElementById('instruction');
+
+    wrapper.classList.add('opened');
+    btnOpen.disabled = true;
+    instruction.textContent = '✨ Sedang membuka...';
+
+    const terpilih = hadiah[Math.floor(Math.random() * hadiah.length)];
+
+    setTimeout(launchConfetti, 400);
+    setTimeout(() => tampilkanModal(terpilih.label), 1200);
+  }
+
+  function tampilkanModal(labelHadiah) {
+    document.getElementById('prizeAmount').textContent = labelHadiah;
+    document.getElementById('claimBtn').href = claimLink;
+    document.getElementById('modalUserId').textContent = userIdTerkonfirmasi;
+    document.getElementById('modalOverlay').classList.add('active');
+  }
+
+  // ══════════════════════════════════════════════
+  // CONFETTI ENGINE
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  let confettiPieces = [];
+  let animating = false;
+
+  const colors = [
+    '#ffd600','#ffab00','#ff6d00','#ff3d00','#fff8e1',
+    '#ffcc02','#ff9500','#ffe066','#ff7043','#ffd180'
+  ];
+
+  function createPiece() {
+    return {
+      x: Math.random() * canvas.width,
+      y: canvas.height + 10,
+      vx: (Math.random() - 0.5) * 6,
+      vy: -(Math.random() * 18 + 14),
+      gravity: 0.35,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 12,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      size: Math.random() * 10 + 6,
+      shape: Math.random() > 0.5 ? 'rect' : 'circle',
+      alpha: 1,
+    };
+  }
+
+  function launchConfetti() {
+    for (let i = 0; i < 180; i++) {
+      setTimeout(() => confettiPieces.push(createPiece()), i * 12);
+    }
+    if (!animating) animateConfetti();
+  }
+
+  function animateConfetti() {
+    animating = true;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confettiPieces = confettiPieces.filter(p => p.alpha > 0.01);
+
+    confettiPieces.forEach(p => {
+      p.vy += p.gravity;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rotation += p.rotationSpeed;
+      if (p.y > canvas.height * 0.7) p.alpha -= 0.012;
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation * Math.PI / 180);
+      ctx.fillStyle = p.color;
+
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    });
+
+    if (confettiPieces.length > 0) {
+      requestAnimationFrame(animateConfetti);
+    } else {
+      animating = false;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  // ══════════════════════════════════════════════
+  // FLOATING PARTICLES (dekorasi background)
+  function spawnParticle() {
+    const el = document.createElement('div');
+    el.className = 'particle';
+    const size = Math.random() * 4 + 1;
+    const hue = Math.random() > 0.5 ? '#ffd600' : '#ff6d00';
+    el.style.cssText = `
+      width: ${size}px; height: ${size}px;
+      left: ${Math.random() * 100}vw;
+      bottom: -10px;
+      background: ${hue};
+      opacity: ${Math.random() * 0.5 + 0.1};
+      animation-duration: ${Math.random() * 8 + 6}s;
+      animation-delay: ${Math.random() * 5}s;
+      box-shadow: 0 0 ${size * 3}px ${hue};
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 14000);
+  }
+  setInterval(spawnParticle, 600);
+
+  // ══════════════════════════════════════════════
+  // DEVTOOLS DETERRENT
+  // Disable klik kanan
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // Disable shortcut keyboard devtools
+  document.addEventListener('keydown', e => {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['I','J','C','U'].includes(e.key.toUpperCase())) ||
+      (e.ctrlKey && e.key === 'U')
+    ) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // Deteksi devtools terbuka via ukuran window
+  (function detectDevTools() {
+    const threshold = 160;
+    function check() {
+      const widthDiff  = window.outerWidth  - window.innerWidth;
+      const heightDiff = window.outerHeight - window.innerHeight;
+      if (widthDiff > threshold || heightDiff > threshold) {
+        document.getElementById('devtools-warning').classList.add('show');
+      } else {
+        document.getElementById('devtools-warning').classList.remove('show');
+      }
+    }
+    setInterval(check, 1000);
+  })();
+</script>
 </body>
 </html>
