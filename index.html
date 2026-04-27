@@ -292,6 +292,18 @@
   .envelope-wrapper.opened #env-closed { opacity: 0; transform: scale(0.85); }
   .envelope-wrapper.opened #env-opened { opacity: 1; transform: scale(1); }
 
+  /* Shine ring */
+  .envelope-ring {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(#3d1500, #3d1500) padding-box,
+                linear-gradient(135deg, #ffd600, #ff6d00, #fff8e1, #ffd600) border-box;
+    animation: spinRing 4s linear infinite;
+    opacity: 0.7;
+  }
+
   @keyframes spinRing { to { transform: rotate(360deg); } }
 
   /* ============ TOMBOL BUKA AMPLOP ============ */
